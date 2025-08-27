@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نانوایی طلایی - فروشگاه آنلاین نان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'vazir': ['Vazir', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Vazir', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .bread-card { transition: all 0.3s ease; }
+        .bread-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .chat-bubble { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+        .notification { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .star-rating { color: #fbbf24; }
+        .filter-btn.active { background: #8b5cf6; color: white; }
+        .search-highlight { background: yellow; }
+        .loading { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login/Register Screen -->
+    <div id="authScreen" class="min-h-screen gradient-bg flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">🍞</div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">نانوایی طلایی</h1>
+                <p class="text-gray-600">به فروشگاه آنلاین نان خوش آمدید</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginSection">
+                <h2 class="text-2xl font-bold text-center mb-6">ورود به حساب کاربری</h2>
+                <form id="mainLoginForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">نام کاربری یا ایمیل</label>
+                        <input type="text" id="mainUsernameInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="نام کاربری یا ایمیل خود را وارد کنید" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">رمز عبور</label>
+                        <input type="password" id="mainPasswordInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="رمز عبور" required>
+                    </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span class="text-sm text-gray-600">مرا به خاطر بسپار</span>
+                        </label>
+                        <button type="button" id="forgotPasswordBtn" class="text-sm text-purple-600 hover:text-purple-800">فراموشی رمز عبور؟</button>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 mb-4">
+                        ورود
+                    </button>
+                </form>
+                <div class="text-center">
+                    <span class="text-gray-600">حساب کاربری ندارید؟</span>
+                    <button id="showRegisterBtn" class="text-purple-600 hover:text-purple-800 font-semibold">ثبت نام کنید</button>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerSection" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">ثبت نام</h2>
+                <form id="registerForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">نام و نام خانوادگی</label>
+                        <input type="text" id="fullNameInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="نام کامل خود را وارد کنید" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">نام کاربری</label>
+                        <input type="text" id="regUsernameInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="نام کاربری دلخواه" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">ایمیل</label>
+                        <input type="email" id="emailInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="ایمیل شما" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">شماره تلفن</label>
+                        <input type="tel" id="phoneInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="09xxxxxxxxx" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">رمز عبور</label>
+                        <input type="password" id="regPasswordInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="رمز عبور (حداقل 6 کاراکتر)" required minlength="6">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">تکرار رمز عبور</label>
+                        <input type="password" id="confirmPasswordInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="تکرار رمز عبور" required>
+                    </div>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 mb-4">
+                        ثبت نام
+                    </button>
+                </form>
+                <div class="text-center">
+                    <span class="text-gray-600">قبلاً ثبت نام کرده‌اید؟</span>
+                    <button id="showLoginBtn" class="text-purple-600 hover:text-purple-800 font-semibold">وارد شوید</button>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="forgotPasswordSection" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">بازیابی رمز عبور</h2>
+                <p class="text-gray-600 text-center mb-6">ایمیل خود را وارد کنید تا لینک بازیابی رمز عبور برایتان ارسال شود</p>
+                <form id="forgotPasswordForm">
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">ایمیل</label>
+                        <input type="email" id="forgotEmailInput" class="w-full px-3 py-3 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="ایمیل خود را وارد کنید" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 mb-4">
+                        ارسال لینک بازیابی
+                    </button>
+                </form>
+                <div class="text-center">
+                    <button id="backToLoginBtn" class="text-purple-600 hover:text-purple-800 font-semibold">بازگشت به ورود</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Website (Hidden Initially) -->
+    <div id="mainWebsite" class="hidden">
+        <!-- Header -->
+        <header class="gradient-bg text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="text-3xl">🍞</div>
+                    <h1 class="text-2xl font-bold">نانوایی طلایی</h1>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <input id="searchInput" type="text" placeholder="جستجوی نان..." class="w-full px-4 py-2 rounded-lg text-gray-800 pr-10">
+                        <div class="absolute right-3 top-2.5 text-gray-500">🔍</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <!-- User Account -->
+                    <div class="relative">
+                        <button id="userBtn" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 space-x-reverse">
+                            <span>👤</span>
+                            <span id="userName">حساب کاربری</span>
+                        </button>
+                        <div id="userMenu" class="hidden absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-gray-800">
+                            <a href="#" id="profileBtn" class="block px-4 py-2 hover:bg-gray-100">پروفایل من</a>
+                            <a href="#" id="ordersBtn" class="block px-4 py-2 hover:bg-gray-100">سفارشات من</a>
+                            <a href="#" id="wishlistBtn" class="block px-4 py-2 hover:bg-gray-100">علاقه‌مندی‌ها</a>
+                            <hr class="my-2">
+                            <a href="#" id="logoutBtn" class="block px-4 py-2 hover:bg-gray-100 text-red-600">خروج از حساب</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart -->
+                    <div class="relative">
+                        <button id="cartBtn" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 space-x-reverse">
+                            <span>🛒</span>
+                            <span class="hidden md:inline">سبد نان</span>
+                            <span id="cartCount" class="bg-red-500 text-white rounded-full px-2 py-1 text-xs">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">نان تازه و گرم، درب منزل شما</h2>
+            <p class="text-xl mb-8">بیش از ۲۰ نوع نان سنتی و مدرن با کیفیت بالا</p>
+            <div class="flex justify-center space-x-4 space-x-reverse">
+                <button id="viewProductsBtn" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
+                    مشاهده محصولات
+                </button>
+                <button id="contactUsBtn" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-all duration-300">
+                    تماس با ما
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="py-8 bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <button class="filter-btn active px-6 py-2 rounded-full border-2 border-purple-500 transition-all duration-300" data-category="all">
+                    همه محصولات
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-purple-500 transition-all duration-300" data-category="traditional">
+                    نان‌های سنتی
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-purple-500 transition-all duration-300" data-category="modern">
+                    نان‌های مدرن
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-purple-500 transition-all duration-300" data-category="sweet">
+                    نان‌های شیرین
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full border-2 border-purple-500 transition-all duration-300" data-category="healthy">
+                    نان‌های سالم
+                </button>
+            </div>
+            
+            <div class="flex justify-center">
+                <select id="sortSelect" class="px-4 py-2 border rounded-lg">
+                    <option value="name">مرتب‌سازی بر اساس نام</option>
+                    <option value="price-low">قیمت: کم به زیاد</option>
+                    <option value="price-high">قیمت: زیاد به کم</option>
+                    <option value="rating">امتیاز</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Tutorials Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">آموزش تهیه نان‌ها</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="videosGrid">
+                <!-- Video tutorials will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Information Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">درباره نانوایی طلایی</h3>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <!-- About Us -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-purple-50 to-blue-50 p-8 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="text-4xl ml-4">🏪</span>
+                            <h4 class="text-2xl font-bold text-gray-800">داستان ما</h4>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            نانوایی طلایی از سال ۱۳۸۵ با هدف ارائه بهترین و تازه‌ترین نان‌های سنتی و مدرن فعالیت خود را آغاز کرد. 
+                            ما با بیش از ۱۵ سال تجربه در صنعت نانوایی، همواره کیفیت و رضایت مشتریان را در اولویت قرار داده‌ایم.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            تیم ما متشکل از نانوایان ماهر و با تجربه است که با استفاده از بهترین مواد اولیه و روش‌های سنتی، 
+                            نان‌هایی با طعم و عطر بی‌نظیر تولید می‌کنند.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Our Values -->
+                <div class="space-y-6">
+                    <div class="bg-gradient-to-br from-green-50 to-yellow-50 p-8 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <span class="text-4xl ml-4">⭐</span>
+                            <h4 class="text-2xl font-bold text-gray-800">ارزش‌های ما</h4>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-2xl">🌟</span>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">کیفیت برتر</h5>
+                                    <p class="text-gray-600 text-sm">استفاده از بهترین مواد اولیه و رعایت استانداردهای بهداشتی</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-2xl">🔥</span>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">تازگی مطلق</h5>
+                                    <p class="text-gray-600 text-sm">تولید روزانه و تحویل نان‌های تازه و گرم</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-2xl">🚚</span>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">تحویل سریع</h5>
+                                    <p class="text-gray-600 text-sm">ارسال در کمترین زمان ممکن تا درب منزل</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3 space-x-reverse">
+                                <span class="text-2xl">💰</span>
+                                <div>
+                                    <h5 class="font-semibold text-gray-800">قیمت مناسب</h5>
+                                    <p class="text-gray-600 text-sm">بهترین کیفیت با مناسب‌ترین قیمت</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                <div class="text-center bg-purple-50 p-6 rounded-lg">
+                    <div class="text-3xl font-bold text-purple-600 mb-2">15+</div>
+                    <div class="text-gray-600">سال تجربه</div>
+                </div>
+                <div class="text-center bg-green-50 p-6 rounded-lg">
+                    <div class="text-3xl font-bold text-green-600 mb-2">50,000+</div>
+                    <div class="text-gray-600">مشتری راضی</div>
+                </div>
+                <div class="text-center bg-blue-50 p-6 rounded-lg">
+                    <div class="text-3xl font-bold text-blue-600 mb-2">24</div>
+                    <div class="text-gray-600">نوع نان مختلف</div>
+                </div>
+                <div class="text-center bg-yellow-50 p-6 rounded-lg">
+                    <div class="text-3xl font-bold text-yellow-600 mb-2">1000+</div>
+                    <div class="text-gray-600">سفارش روزانه</div>
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div class="bg-gray-50 p-8 rounded-lg mb-16">
+                <h4 class="text-2xl font-bold text-center mb-8 text-gray-800">خدمات ما</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">🛒</div>
+                        <h5 class="font-semibold mb-2">سفارش آنلاین</h5>
+                        <p class="text-gray-600 text-sm">امکان سفارش آسان و سریع از طریق وبسایت</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">🚚</div>
+                        <h5 class="font-semibold mb-2">ارسال رایگان</h5>
+                        <p class="text-gray-600 text-sm">ارسال رایگان برای خریدهای بالای ۵۰ هزار تومان</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">⏰</div>
+                        <h5 class="font-semibold mb-2">تحویل ۳۰ دقیقه‌ای</h5>
+                        <p class="text-gray-600 text-sm">تحویل سریع در کمتر از ۳۰ دقیقه</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">🎂</div>
+                        <h5 class="font-semibold mb-2">سفارش ویژه</h5>
+                        <p class="text-gray-600 text-sm">امکان سفارش نان‌های ویژه برای مناسبت‌ها</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">💳</div>
+                        <h5 class="font-semibold mb-2">پرداخت آنلاین</h5>
+                        <p class="text-gray-600 text-sm">امکان پرداخت آنلاین و نقدی</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="text-3xl mb-4">📞</div>
+                        <h5 class="font-semibold mb-2">پشتیبانی ۲۴/۷</h5>
+                        <p class="text-gray-600 text-sm">پشتیبانی و مشاوره در تمام ساعات</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quality Assurance -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl ml-4">🏆</span>
+                        <h4 class="text-2xl font-bold text-gray-800">تضمین کیفیت</h4>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-700">استفاده از آرد درجه یک</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-700">رعایت کامل اصول بهداشتی</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-700">تولید روزانه و تازه</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-700">بسته‌بندی استاندارد</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">✓</span>
+                            <span class="text-gray-700">کنترل کیفیت مستمر</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-teal-50 to-cyan-50 p-8 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl ml-4">🌍</span>
+                        <h4 class="text-2xl font-bold text-gray-800">مسئولیت اجتماعی</h4>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">🌱</span>
+                            <span class="text-gray-700">استفاده از مواد طبیعی و ارگانیک</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">♻️</span>
+                            <span class="text-gray-700">بسته‌بندی قابل بازیافت</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">🤝</span>
+                            <span class="text-gray-700">حمایت از کشاورزان محلی</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">💚</span>
+                            <span class="text-gray-700">کاهش ضایعات غذایی</span>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-green-500">🎯</span>
+                            <span class="text-gray-700">مشارکت در برنامه‌های خیریه</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl font-bold text-center mb-12 text-gray-800">محصولات ما</h3>
+            <div id="loadingSpinner" class="hidden text-center py-8">
+                <div class="loading inline-block w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full"></div>
+                <p class="mt-2">در حال بارگذاری...</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
+    </div> <!-- End of mainWebsite -->
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">ورود / ثبت نام</h3>
+                    <button id="closeLogin" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <form id="loginForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">نام کاربری</label>
+                        <input type="text" id="usernameInput" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="نام کاربری خود را وارد کنید">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">رمز عبور</label>
+                        <input type="password" id="passwordInput" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="رمز عبور">
+                    </div>
+                    <button type="submit" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                        ورود
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold">سبد نان شما</h3>
+                    <button id="closeCart" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div id="cartItems" class="space-y-4 mb-6">
+                    <!-- Cart items will be shown here -->
+                </div>
+                <div class="border-t pt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span>جمع کل:</span>
+                        <span id="subtotalPrice">0 تومان</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span>هزینه ارسال:</span>
+                        <span id="shippingPrice">5,000 تومان</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-4 text-lg font-bold">
+                        <span>مجموع نهایی:</span>
+                        <span id="totalPrice">0 تومان</span>
+                    </div>
+                    <button id="checkoutBtn" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                        تکمیل خرید
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Chat -->
+    <div id="chatWidget" class="fixed bottom-6 left-6 z-50">
+        <button id="chatToggle" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg chat-bubble">
+            💬
+        </button>
+        <div id="chatBox" class="hidden absolute bottom-16 left-0 bg-white rounded-lg shadow-xl w-80 h-96">
+            <div class="bg-blue-500 text-white p-4 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold">پشتیبانی آنلاین</span>
+                    <button id="closeChatBtn" class="text-white hover:text-gray-200">✕</button>
+                </div>
+                <div class="text-sm opacity-90">🟢 آنلاین - پاسخ فوری</div>
+            </div>
+            <div id="chatMessages" class="p-4 h-64 overflow-y-auto bg-gray-50">
+                <div class="bg-blue-100 p-3 rounded-lg mb-3">
+                    <div class="font-semibold text-blue-800">مشاور فروش</div>
+                    <div class="text-sm">سلام! چطور می‌تونم کمکتون کنم؟ 😊</div>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2 space-x-reverse">
+                    <input id="chatInput" type="text" placeholder="پیام خود را بنویسید..." class="flex-1 border rounded-lg px-3 py-2 text-sm">
+                    <button id="sendChatBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                        ارسال
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">پروفایل کاربری</h3>
+                    <button id="closeProfile" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div id="profileContent" class="space-y-4">
+                    <!-- Profile content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders Modal -->
+    <div id="ordersModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-4xl w-full p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">سفارشات من</h3>
+                    <button id="closeOrders" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div id="ordersContent">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-4xl w-full p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">علاقه‌مندی‌های من</h3>
+                    <button id="closeWishlist" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div id="wishlistContent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Wishlist items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">تکمیل خرید</h3>
+                    <button id="closeCheckout" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                
+                <form id="checkoutForm">
+                    <!-- Delivery Information -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold mb-4">اطلاعات تحویل</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">نام و نام خانوادگی</label>
+                                <input type="text" id="deliveryName" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">شماره تلفن</label>
+                                <input type="tel" id="deliveryPhone" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" required>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">آدرس کامل</label>
+                            <textarea id="deliveryAddress" rows="3" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="آدرس کامل برای تحویل سفارش" required></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold mb-4">روش پرداخت</h4>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="paymentMethod" value="card" class="ml-2" checked>
+                                <span>💳 پرداخت با کارت</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="paymentMethod" value="cash" class="ml-2">
+                                <span>💵 پرداخت نقدی هنگام تحویل</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Card Information -->
+                    <div id="cardInfo" class="mb-6">
+                        <h4 class="text-lg font-semibold mb-4">اطلاعات کارت</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">شماره کارت</label>
+                                <input type="text" id="cardNumber" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">تاریخ انقضا</label>
+                                <input type="text" id="cardExpiry" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">CVV</label>
+                                <input type="text" id="cardCvv" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="123" maxlength="4">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">نام صاحب کارت</label>
+                                <input type="text" id="cardHolder" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-purple-500" placeholder="نام و نام خانوادگی به انگلیسی">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="mb-6 bg-gray-50 p-4 rounded-lg">
+                        <h4 class="text-lg font-semibold mb-3">خلاصه سفارش</h4>
+                        <div id="checkoutSummary" class="space-y-2 mb-3">
+                            <!-- Order items will be shown here -->
+                        </div>
+                        <div class="border-t pt-3 space-y-2">
+                            <div class="flex justify-between">
+                                <span>جمع کل:</span>
+                                <span id="checkoutSubtotal">0 تومان</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>هزینه ارسال:</span>
+                                <span id="checkoutShipping">0 تومان</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-lg">
+                                <span>مجموع نهایی:</span>
+                                <span id="checkoutTotal">0 تومان</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                        تایید و پرداخت
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">فاکتور خرید</h3>
+                    <button id="closeInvoice" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                
+                <div id="invoiceContent" class="space-y-6">
+                    <!-- Invoice content will be generated here -->
+                </div>
+                
+                <div class="flex space-x-4 space-x-reverse mt-6">
+                    <button id="printInvoice" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                        🖨️ چاپ فاکتور
+                    </button>
+                    <button id="downloadInvoice" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-all duration-300">
+                        📥 دانلود PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">تماس با ما</h3>
+                    <button id="closeContact" class="text-gray-500 hover:text-gray-700">✕</button>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📞</span>
+                        <div>
+                            <div class="font-semibold">تلفن</div>
+                            <div class="text-gray-600">021-12345678</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📱</span>
+                        <div>
+                            <div class="font-semibold">موبایل</div>
+                            <div class="text-gray-600">09123456789</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📧</span>
+                        <div>
+                            <div class="font-semibold">ایمیل</div>
+                            <div class="text-gray-600">info@goldenbakery.ir</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📍</span>
+                        <div>
+                            <div class="font-semibold">آدرس</div>
+                            <div class="text-gray-600">تهران، خیابان ولیعصر، پلاک ۱۲۳</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">🕐</span>
+                        <div>
+                            <div class="font-semibold">ساعات کاری</div>
+                            <div class="text-gray-600">شنبه تا پنج‌شنبه: ۸ صبح تا ۱۰ شب</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-4 left-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg hidden notification z-50">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Extended products data
+        const products = [
+            // Traditional breads
+            { id: 1, name: 'نان سنگک', price: 8000, image: '🥖', description: 'نان سنتی سنگک تازه و گرم', category: 'traditional', rating: 4.8, discount: 0 },
+            { id: 2, name: 'نان بربری', price: 6000, image: '🍞', description: 'نان بربری نرم و خوشمزه', category: 'traditional', rating: 4.7, discount: 10 },
+            { id: 3, name: 'نان تافتون', price: 7000, image: '🫓', description: 'نان تافتون نازک و لذیذ', category: 'traditional', rating: 4.6, discount: 0 },
+            { id: 4, name: 'نان لواش', price: 5000, image: '🌯', description: 'نان لواش نرم و انعطاف‌پذیر', category: 'traditional', rating: 4.5, discount: 15 },
+            { id: 5, name: 'نان دوغی', price: 9000, image: '🥯', description: 'نان دوغی سنتی شیراز', category: 'traditional', rating: 4.9, discount: 0 },
+            
+            // Modern breads
+            { id: 6, name: 'نان فانتزی', price: 12000, image: '🥨', description: 'نان فانتزی با طعم‌های مختلف', category: 'modern', rating: 4.4, discount: 20 },
+            { id: 7, name: 'نان پیتزا', price: 15000, image: '🍕', description: 'خمیر پیتزا آماده', category: 'modern', rating: 4.3, discount: 0 },
+            { id: 8, name: 'نان همبرگر', price: 18000, image: '🍔', description: 'نان همبرگر نرم و تازه', category: 'modern', rating: 4.2, discount: 0 },
+            { id: 9, name: 'نان باگت', price: 14000, image: '🥖', description: 'نان باگت فرانسوی اصل', category: 'modern', rating: 4.6, discount: 0 },
+            { id: 10, name: 'نان چیاباتا', price: 16000, image: '🍞', description: 'نان چیاباتا ایتالیایی', category: 'modern', rating: 4.5, discount: 0 },
+            
+            // Sweet breads
+            { id: 11, name: 'نان شیرمال', price: 20000, image: '🧈', description: 'نان شیرمال شیرین و نرم', category: 'sweet', rating: 4.8, discount: 0 },
+            { id: 12, name: 'نان کشمشی', price: 22000, image: '🍇', description: 'نان شیرین با کشمش', category: 'sweet', rating: 4.7, discount: 0 },
+            { id: 13, name: 'نان دارچینی', price: 25000, image: '🌀', description: 'نان رولی با دارچین', category: 'sweet', rating: 4.9, discount: 0 },
+            { id: 14, name: 'نان شکلاتی', price: 28000, image: '🍫', description: 'نان شیرین با تکه‌های شکلات', category: 'sweet', rating: 4.6, discount: 0 },
+            { id: 15, name: 'نان عسلی', price: 24000, image: '🍯', description: 'نان شیرین با عسل طبیعی', category: 'sweet', rating: 4.5, discount: 0 },
+            
+            // Healthy breads
+            { id: 16, name: 'نان کامل', price: 10000, image: '🌾', description: 'نان کامل سرشار از فیبر', category: 'healthy', rating: 4.4, discount: 0 },
+            { id: 17, name: 'نان جو', price: 12000, image: '🌾', description: 'نان جو مفید برای سلامتی', category: 'healthy', rating: 4.3, discount: 0 },
+            { id: 18, name: 'نان چاودار', price: 13000, image: '🌾', description: 'نان چاودار غنی از پروتئین', category: 'healthy', rating: 4.2, discount: 0 },
+            { id: 19, name: 'نان بدون گلوتن', price: 18000, image: '🌿', description: 'نان مخصوص افراد حساس به گلوتن', category: 'healthy', rating: 4.1, discount: 0 },
+            { id: 20, name: 'نان کینوا', price: 20000, image: '🌱', description: 'نان سوپرفود با کینوا', category: 'healthy', rating: 4.0, discount: 0 },
+            
+            // Additional varieties
+            { id: 21, name: 'نان ذرت', price: 11000, image: '🌽', description: 'نان ذرت طلایی و خوشمزه', category: 'healthy', rating: 4.3, discount: 0 },
+            { id: 22, name: 'نان سیاه', price: 14000, image: '⚫', description: 'نان سیاه با آرد سیاه', category: 'healthy', rating: 4.2, discount: 0 },
+            { id: 23, name: 'نان پنیری', price: 19000, image: '🧀', description: 'نان با پنیر ذوب شده', category: 'modern', rating: 4.7, discount: 0 },
+            { id: 24, name: 'نان سیر', price: 16000, image: '🧄', description: 'نان معطر با سیر و سبزیجات', category: 'modern', rating: 4.4, discount: 0 }
+        ];
+
+        let cart = [];
+        let currentUser = null;
+        let filteredProducts = [...products];
+        let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+        // Video tutorials data
+        const videoTutorials = [
+            {
+                id: 1,
+                title: 'طرز تهیه نان سنگک سنتی',
+                description: 'آموزش کامل تهیه نان سنگک با روش سنتی',
+                thumbnail: '🥖',
+                duration: '12:30',
+                difficulty: 'متوسط',
+                ingredients: ['آرد سفید', 'خمیرمایه', 'آب', 'نمک', 'روغن'],
+                steps: [
+                    'مخلوط کردن آرد با آب و خمیرمایه',
+                    'ورز دادن خمیر به مدت 10 دقیقه',
+                    'استراحت خمیر به مدت 2 ساعت',
+                    'شکل دادن و پخت روی سنگ داغ'
+                ]
+            },
+            {
+                id: 2,
+                title: 'نحوه پخت نان بربری خانگی',
+                description: 'راز تهیه نان بربری نرم و خوشمزه در خانه',
+                thumbnail: '🍞',
+                duration: '8:45',
+                difficulty: 'آسان',
+                ingredients: ['آرد سفید', 'شیر', 'خمیرمایه', 'شکر', 'کره'],
+                steps: [
+                    'حل کردن خمیرمایه در شیر گرم',
+                    'اضافه کردن آرد و مواد خشک',
+                    'ورز دادن تا خمیر صاف شود',
+                    'پخت در فر 200 درجه'
+                ]
+            },
+            {
+                id: 3,
+                title: 'آموزش تهیه نان تافتون',
+                description: 'طرز تهیه نان تافتون نازک و لذیذ',
+                thumbnail: '🫓',
+                duration: '15:20',
+                difficulty: 'سخت',
+                ingredients: ['آرد سفید', 'آب', 'نمک', 'روغن زیتون'],
+                steps: [
+                    'تهیه خمیر نرم و انعطاف‌پذیر',
+                    'تقسیم خمیر به قسمت‌های کوچک',
+                    'نازک کردن با وردنه',
+                    'پخت سریع روی تابه داغ'
+                ]
+            },
+            {
+                id: 4,
+                title: 'راز تهیه نان شیرمال',
+                description: 'آموزش تهیه نان شیرمال شیرین و نرم',
+                thumbnail: '🧈',
+                duration: '18:10',
+                difficulty: 'متوسط',
+                ingredients: ['آرد سفید', 'شیر', 'تخم‌مرغ', 'شکر', 'کره', 'خمیرمایه'],
+                steps: [
+                    'مخلوط کردن مواد مرطوب',
+                    'اضافه کردن آرد به تدریج',
+                    'ورز دادن خمیر تا نرم شود',
+                    'تخمیر و پخت در فر'
+                ]
+            },
+            {
+                id: 5,
+                title: 'نان لواش خانگی',
+                description: 'طرز تهیه نان لواش نرم و انعطاف‌پذیر',
+                thumbnail: '🌯',
+                duration: '10:30',
+                difficulty: 'آسان',
+                ingredients: ['آرد سفید', 'آب گرم', 'نمک', 'روغن'],
+                steps: [
+                    'مخلوط کردن آرد با آب گرم',
+                    'اضافه کردن نمک و روغن',
+                    'ورز دادن خمیر',
+                    'پخت روی تابه بدون روغن'
+                ]
+            },
+            {
+                id: 6,
+                title: 'آموزش نان فانتزی',
+                description: 'تهیه نان فانتزی با اشکال مختلف',
+                thumbnail: '🥨',
+                duration: '22:15',
+                difficulty: 'سخت',
+                ingredients: ['آرد سفید', 'شیر', 'تخم‌مرغ', 'کره', 'خمیرمایه', 'تزئینات'],
+                steps: [
+                    'تهیه خمیر غنی',
+                    'شکل دادن به اشکال مختلف',
+                    'تزئین با تخم‌مرغ و کنجد',
+                    'پخت در فر تا طلایی شود'
+                ]
+            }
+        ];
+
+        // Session management - Auto logout when browser closes
+        function initializeSession() {
+            // Check if user was logged in before
+            const sessionUser = sessionStorage.getItem('currentUser');
+            const persistentUser = localStorage.getItem('persistentUser');
+            
+            if (sessionUser) {
+                // User was logged in this session
+                currentUser = JSON.parse(sessionUser);
+                document.getElementById('userName').textContent = currentUser.name || currentUser.username;
+                document.getElementById('authScreen').classList.add('hidden');
+                document.getElementById('mainWebsite').classList.remove('hidden');
+            } else if (persistentUser) {
+                // User had "remember me" checked, but session expired
+                localStorage.removeItem('persistentUser');
+                showNotification('جلسه شما منقضی شده است. لطفاً دوباره وارد شوید');
+            }
+        }
+
+        // Save session data
+        function saveSession(rememberMe = false) {
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            if (rememberMe) {
+                localStorage.setItem('persistentUser', JSON.stringify(currentUser));
+            }
+        }
+
+        // Clear session data
+        function clearSession() {
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('persistentUser');
+        }
+
+        // User management
+        function login(username, password = null, rememberMe = false) {
+            // Check if user exists in registered users
+            const user = registeredUsers.find(u => 
+                (u.username === username || u.email === username) && 
+                (password ? u.password === password : true)
+            );
+            
+            if (password && !user) {
+                showNotification('نام کاربری یا رمز عبور اشتباه است!', 'error');
+                return false;
+            }
+            
+            currentUser = user || { name: username, id: Date.now(), username: username };
+            document.getElementById('userName').textContent = currentUser.name || currentUser.username;
+            
+            // Save session
+            saveSession(rememberMe);
+            
+            // Hide auth screen and show main website
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('mainWebsite').classList.remove('hidden');
+            
+            showNotification(`خوش آمدید ${currentUser.name || currentUser.username}! 🎉`);
+            return true;
+        }
+
+        function register(userData) {
+            // Check if username or email already exists
+            const existingUser = registeredUsers.find(u => 
+                u.username === userData.username || u.email === userData.email
+            );
+            
+            if (existingUser) {
+                showNotification('نام کاربری یا ایمیل قبلاً ثبت شده است!', 'error');
+                return false;
+            }
+            
+            // Add new user
+            const newUser = {
+                id: Date.now(),
+                ...userData,
+                registeredAt: new Date().toISOString()
+            };
+            
+            registeredUsers.push(newUser);
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+            
+            showNotification('ثبت نام با موفقیت انجام شد! 🎉');
+            
+            // Auto login after registration
+            login(userData.username);
+            return true;
+        }
+
+        function logout() {
+            currentUser = null;
+            cart = [];
+            updateCartUI();
+            
+            // Clear session data
+            clearSession();
+            
+            // Show auth screen and hide main website
+            document.getElementById('mainWebsite').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+            
+            // Reset forms
+            document.getElementById('mainLoginForm').reset();
+            showLoginSection();
+            
+            showNotification('با موفقیت خارج شدید');
+        }
+
+        function showLoginSection() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotPasswordSection').classList.add('hidden');
+        }
+
+        function showRegisterSection() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+            document.getElementById('forgotPasswordSection').classList.add('hidden');
+        }
+
+        function showForgotPasswordSection() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('forgotPasswordSection').classList.remove('hidden');
+        }
+
+        // Load video tutorials
+        function loadVideoTutorials() {
+            const videosGrid = document.getElementById('videosGrid');
+            
+            videosGrid.innerHTML = videoTutorials.map(video => {
+                const difficultyColor = 
+                    video.difficulty === 'آسان' ? 'bg-green-100 text-green-800' :
+                    video.difficulty === 'متوسط' ? 'bg-yellow-100 text-yellow-800' :
+                    'bg-red-100 text-red-800';
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+                        <div class="relative">
+                            <div class="bg-gradient-to-br from-purple-400 to-purple-600 h-48 flex items-center justify-center">
+                                <div class="text-6xl">${video.thumbnail}</div>
+                                <div class="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm">
+                                    ${video.duration}
+                                </div>
+                                <div class="absolute bottom-2 left-2 ${difficultyColor} px-2 py-1 rounded text-xs font-semibold">
+                                    ${video.difficulty}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-lg font-semibold mb-2">${video.title}</h4>
+                            <p class="text-gray-600 text-sm mb-3">${video.description}</p>
+                            <button onclick="showVideoDetails(${video.id})" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 rounded-lg font-semibold transition-all duration-300">
+                                مشاهده آموزش
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Show video details
+        function showVideoDetails(videoId) {
+            const video = videoTutorials.find(v => v.id === videoId);
+            if (!video) return;
+            
+            // Create modal for video details
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold">${video.title}</h3>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">✕</button>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-purple-400 to-purple-600 h-48 rounded-lg flex items-center justify-center mb-4">
+                            <div class="text-6xl">${video.thumbnail}</div>
+                            <div class="absolute bg-black bg-opacity-70 text-white px-3 py-2 rounded-full">
+                                ▶️ ${video.duration}
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-600 mb-4">${video.description}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="font-semibold mb-2">مواد لازم:</h4>
+                                <ul class="text-sm text-gray-600 space-y-1">
+                                    ${video.ingredients.map(ingredient => `<li>• ${ingredient}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-2">مراحل تهیه:</h4>
+                                <ol class="text-sm text-gray-600 space-y-1">
+                                    ${video.steps.map((step, index) => `<li>${index + 1}. ${step}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-100 p-3 rounded-lg text-center">
+                            <p class="text-sm text-gray-600 mb-2">این ویدیو نمونه‌ای از آموزش‌های ما است</p>
+                            <p class="text-xs text-gray-500">برای مشاهده ویدیوهای کامل، لطفاً با ما تماس بگیرید</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Close modal on outside click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // Load products with animation
+        function loadProducts(productsToShow = filteredProducts) {
+            const grid = document.getElementById('productsGrid');
+            const spinner = document.getElementById('loadingSpinner');
+            
+            spinner.classList.remove('hidden');
+            grid.innerHTML = '';
+            
+            setTimeout(() => {
+                grid.innerHTML = productsToShow.map(product => {
+                    const discountPrice = product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price;
+                    const stars = '⭐'.repeat(Math.floor(product.rating));
+                    
+                    return `
+                        <div class="bread-card bg-white rounded-lg shadow-md overflow-hidden relative">
+                            ${product.discount > 0 ? `<div class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">${product.discount}% تخفیف</div>` : ''}
+                            <div class="p-6 text-center">
+                                <div class="text-6xl mb-4">${product.image}</div>
+                                <h4 class="text-xl font-semibold mb-2">${product.name}</h4>
+                                <p class="text-gray-600 mb-3">${product.description}</p>
+                                <div class="star-rating mb-2">${stars} <span class="text-gray-600 text-sm">(${product.rating})</span></div>
+                                <div class="mb-4">
+                                    ${product.discount > 0 ? 
+                                        `<div class="text-lg text-gray-500 line-through">${product.price.toLocaleString()} تومان</div>
+                                         <div class="text-2xl font-bold text-green-600">${discountPrice.toLocaleString()} تومان</div>` :
+                                        `<div class="text-2xl font-bold text-green-600">${product.price.toLocaleString()} تومان</div>`
+                                    }
+                                </div>
+                                <div class="flex space-x-2 space-x-reverse">
+                                    <button onclick="addToCart(${product.id})" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                                        افزودن به سبد نان
+                                    </button>
+                                    <button onclick="toggleWishlist(${product.id})" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg transition-all duration-300">
+                                        ❤️
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                spinner.classList.add('hidden');
+            }, 500);
+        }
+
+        // Filter products
+        function filterProducts(category) {
+            if (category === 'all') {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product => product.category === category);
+            }
+            loadProducts();
+            loadVideoTutorials();
+        }
+
+        // Sort products
+        function sortProducts(sortBy) {
+            switch(sortBy) {
+                case 'name':
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+            }
+            loadProducts();
+            loadVideoTutorials();
+        }
+
+        // Search products
+        function searchProducts(query) {
+            if (!query) {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product => 
+                    product.name.includes(query) || product.description.includes(query)
+                );
+            }
+            loadProducts();
+            loadVideoTutorials();
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                const discountPrice = product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price;
+                cart.push({ ...product, quantity: 1, finalPrice: discountPrice });
+            }
+            
+            updateCartUI();
+            showNotification(`${product.name} به سبد نان اضافه شد`);
+        }
+
+        // Update cart UI
+        function updateCartUI() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const subtotalPrice = document.getElementById('subtotalPrice');
+            const shippingPrice = document.getElementById('shippingPrice');
+            const totalPrice = document.getElementById('totalPrice');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+            const shipping = subtotal > 50000 ? 0 : 5000;
+            const total = subtotal + shipping;
+            
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div class="text-center text-gray-500 py-8">سبد نان شما خالی است</div>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <span class="text-2xl">${item.image}</span>
+                            <div>
+                                <div class="font-semibold">${item.name}</div>
+                                <div class="text-sm text-gray-600">${item.finalPrice.toLocaleString()} تومان</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <button onclick="changeQuantity(${item.id}, -1)" class="bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full text-sm">-</button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button onclick="changeQuantity(${item.id}, 1)" class="bg-green-500 hover:bg-green-600 text-white w-6 h-6 rounded-full text-sm">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            subtotalPrice.textContent = `${subtotal.toLocaleString()} تومان`;
+            shippingPrice.textContent = shipping === 0 ? 'رایگان' : `${shipping.toLocaleString()} تومان`;
+            totalPrice.textContent = `${total.toLocaleString()} تومان`;
+        }
+
+        // Change quantity
+        function changeQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(cartItem => cartItem.id !== productId);
+                }
+                updateCartUI();
+            }
+        }
+
+        // Toggle wishlist
+        function toggleWishlist(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingIndex = wishlist.findIndex(item => item.id === productId);
+            
+            if (existingIndex > -1) {
+                wishlist.splice(existingIndex, 1);
+                showNotification(`${product.name} از علاقه‌مندی‌ها حذف شد`);
+            } else {
+                wishlist.push(product);
+                showNotification(`${product.name} به علاقه‌مندی‌ها اضافه شد ❤️`);
+            }
+            
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlistUI();
+        }
+
+        // Show profile
+        function showProfile() {
+            if (!currentUser) {
+                showNotification('لطفاً ابتدا وارد حساب کاربری خود شوید', 'error');
+                return;
+            }
+            
+            const profileContent = document.getElementById('profileContent');
+            profileContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">👤</span>
+                        <div>
+                            <div class="font-semibold">نام کامل</div>
+                            <div class="text-gray-600">${currentUser.name || 'تعریف نشده'}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📧</span>
+                        <div>
+                            <div class="font-semibold">ایمیل</div>
+                            <div class="text-gray-600">${currentUser.email || 'تعریف نشده'}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📱</span>
+                        <div>
+                            <div class="font-semibold">شماره تلفن</div>
+                            <div class="text-gray-600">${currentUser.phone || 'تعریف نشده'}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <span class="text-2xl">📅</span>
+                        <div>
+                            <div class="font-semibold">تاریخ عضویت</div>
+                            <div class="text-gray-600">${currentUser.registeredAt ? new Date(currentUser.registeredAt).toLocaleDateString('fa-IR') : 'نامشخص'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('profileModal').classList.remove('hidden');
+        }
+
+        // Show orders
+        function showOrders() {
+            if (!currentUser) {
+                showNotification('لطفاً ابتدا وارد حساب کاربری خود شوید', 'error');
+                return;
+            }
+            
+            const userOrders = orders.filter(order => order.userId === currentUser.id);
+            const ordersContent = document.getElementById('ordersContent');
+            
+            if (userOrders.length === 0) {
+                ordersContent.innerHTML = '<div class="text-center text-gray-500 py-8">شما هنوز سفارشی ندارید</div>';
+            } else {
+                ordersContent.innerHTML = userOrders.map(order => `
+                    <div class="border rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="font-semibold">سفارش #${order.id}</div>
+                            <div class="text-sm text-gray-600">${new Date(order.date).toLocaleDateString('fa-IR')}</div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            ${order.items.map(item => `
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center space-x-2 space-x-reverse">
+                                        <span>${item.image}</span>
+                                        <span>${item.name}</span>
+                                        <span class="text-gray-600">× ${item.quantity}</span>
+                                    </div>
+                                    <span>${(item.finalPrice * item.quantity).toLocaleString()} تومان</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="flex justify-between items-center pt-3 border-t">
+                            <div class="font-semibold">مجموع: ${order.total.toLocaleString()} تومان</div>
+                            <div class="px-3 py-1 rounded-full text-sm ${
+                                order.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                                order.status === 'preparing' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-blue-100 text-blue-800'
+                            }">
+                                ${order.status === 'delivered' ? 'تحویل شده' :
+                                  order.status === 'preparing' ? 'در حال آماده‌سازی' :
+                                  'در انتظار تایید'}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('ordersModal').classList.remove('hidden');
+        }
+
+        // Show wishlist
+        function showWishlist() {
+            const wishlistContent = document.getElementById('wishlistContent');
+            
+            if (wishlist.length === 0) {
+                wishlistContent.innerHTML = '<div class="col-span-full text-center text-gray-500 py-8">علاقه‌مندی‌های شما خالی است</div>';
+            } else {
+                wishlistContent.innerHTML = wishlist.map(product => `
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="text-center">
+                            <div class="text-4xl mb-2">${product.image}</div>
+                            <h4 class="font-semibold mb-2">${product.name}</h4>
+                            <div class="text-green-600 font-bold mb-3">${product.price.toLocaleString()} تومان</div>
+                            <div class="flex space-x-2 space-x-reverse">
+                                <button onclick="addToCart(${product.id})" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded text-sm">
+                                    افزودن به سبد نان
+                                </button>
+                                <button onclick="toggleWishlist(${product.id})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm">
+                                    حذف
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('wishlistModal').classList.remove('hidden');
+        }
+
+        // Update wishlist UI
+        function updateWishlistUI() {
+            // Update wishlist button colors in product grid
+            document.querySelectorAll('[onclick^="toggleWishlist"]').forEach(btn => {
+                const productId = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+                const isInWishlist = wishlist.some(item => item.id === productId);
+                btn.style.backgroundColor = isInWishlist ? '#ef4444' : '#e5e7eb';
+                btn.style.color = isInWishlist ? 'white' : '#374151';
+            });
+        }
+
+        // Scroll to products
+        function scrollToProducts() {
+            document.querySelector('#productsGrid').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            // Set color based on type
+            notification.className = `fixed top-4 left-4 px-6 py-3 rounded-lg shadow-lg notification z-50 ${
+                type === 'error' ? 'bg-red-500' : 'bg-green-500'
+            } text-white`;
+            
+            notificationText.textContent = message;
+            notification.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Chat functionality
+        function addChatMessage(message, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `p-3 rounded-lg mb-3 ${isUser ? 'bg-purple-100 mr-4' : 'bg-blue-100 ml-4'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="font-semibold ${isUser ? 'text-purple-800' : 'text-blue-800'}">
+                    ${isUser ? (currentUser ? currentUser.name : 'شما') : 'مشاور فروش'}
+                </div>
+                <div class="text-sm">${message}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Update checkout summary
+        function updateCheckoutSummary() {
+            const checkoutSummary = document.getElementById('checkoutSummary');
+            const checkoutSubtotal = document.getElementById('checkoutSubtotal');
+            const checkoutShipping = document.getElementById('checkoutShipping');
+            const checkoutTotal = document.getElementById('checkoutTotal');
+            
+            const subtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+            const shipping = subtotal > 50000 ? 0 : 5000;
+            const total = subtotal + shipping;
+            
+            checkoutSummary.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span>${item.image}</span>
+                        <span>${item.name}</span>
+                        <span class="text-gray-600">× ${item.quantity}</span>
+                    </div>
+                    <span>${(item.finalPrice * item.quantity).toLocaleString()} تومان</span>
+                </div>
+            `).join('');
+            
+            checkoutSubtotal.textContent = `${subtotal.toLocaleString()} تومان`;
+            checkoutShipping.textContent = shipping === 0 ? 'رایگان' : `${shipping.toLocaleString()} تومان`;
+            checkoutTotal.textContent = `${total.toLocaleString()} تومان`;
+            
+            // Pre-fill user information if available
+            if (currentUser) {
+                document.getElementById('deliveryName').value = currentUser.name || '';
+                document.getElementById('deliveryPhone').value = currentUser.phone || '';
+            }
+        }
+
+        // Process order
+        function processOrder() {
+            const deliveryInfo = {
+                name: document.getElementById('deliveryName').value,
+                phone: document.getElementById('deliveryPhone').value,
+                address: document.getElementById('deliveryAddress').value
+            };
+            
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            
+            let paymentInfo = { method: paymentMethod };
+            if (paymentMethod === 'card') {
+                paymentInfo = {
+                    method: 'card',
+                    cardNumber: document.getElementById('cardNumber').value,
+                    cardExpiry: document.getElementById('cardExpiry').value,
+                    cardHolder: document.getElementById('cardHolder').value,
+                    // CVV is not stored for security
+                };
+            }
+            
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
+            const shipping = subtotal > 50000 ? 0 : 5000;
+            const total = subtotal + shipping;
+            
+            // Create order
+            const newOrder = {
+                id: Date.now(),
+                userId: currentUser.id,
+                items: [...cart],
+                deliveryInfo: deliveryInfo,
+                paymentInfo: paymentInfo,
+                subtotal: subtotal,
+                shipping: shipping,
+                total: total,
+                date: new Date().toISOString(),
+                status: 'confirmed'
+            };
+            
+            orders.push(newOrder);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            // Generate and show invoice
+            generateInvoice(newOrder);
+            
+            // Clear cart and close checkout modal
+            cart = [];
+            updateCartUI();
+            document.getElementById('checkoutModal').classList.add('hidden');
+            document.getElementById('invoiceModal').classList.remove('hidden');
+            
+            showNotification('سفارش شما با موفقیت ثبت شد! 🎉');
+        }
+
+        // Generate invoice
+        function generateInvoice(order) {
+            const invoiceContent = document.getElementById('invoiceContent');
+            const orderDate = new Date(order.date);
+            
+            invoiceContent.innerHTML = `
+                <!-- Invoice Header -->
+                <div class="text-center border-b pb-3 mb-4">
+                    <div class="text-2xl mb-1">🍞</div>
+                    <h2 class="text-lg font-bold text-gray-800">نانوایی طلایی</h2>
+                    <p class="text-xs text-gray-500">تلفن: 021-12345678</p>
+                </div>
+
+                <!-- Invoice Info -->
+                <div class="grid grid-cols-2 gap-4 mb-4 text-xs">
+                    <div class="space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">شماره:</span>
+                            <span class="font-semibold">#${order.id}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">تاریخ:</span>
+                            <span>${orderDate.toLocaleDateString('fa-IR')}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">وضعیت:</span>
+                            <span class="text-green-600 font-semibold">تایید شده</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">نام:</span>
+                            <span>${order.deliveryInfo.name}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">تلفن:</span>
+                            <span>${order.deliveryInfo.phone}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">پرداخت:</span>
+                            <span>${order.paymentInfo.method === 'card' ? '💳 کارت' : '💵 نقدی'}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="mb-4">
+                    <h3 class="text-sm font-semibold mb-2">سفارشات:</h3>
+                    <div class="space-y-2">
+                        ${order.items.map(item => `
+                            <div class="flex justify-between items-center text-xs bg-gray-50 p-2 rounded">
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <span>${item.image}</span>
+                                    <span>${item.name}</span>
+                                    <span class="text-gray-600">× ${item.quantity}</span>
+                                </div>
+                                <span class="font-semibold">${(item.finalPrice * item.quantity).toLocaleString()} تومان</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Totals -->
+                <div class="border-t pt-3">
+                    <div class="space-y-1 text-sm">
+                        <div class="flex justify-between">
+                            <span>جمع کل:</span>
+                            <span>${order.subtotal.toLocaleString()} تومان</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>ارسال:</span>
+                            <span>${order.shipping === 0 ? 'رایگان' : order.shipping.toLocaleString() + ' تومان'}</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold border-t pt-2">
+                            <span>مجموع:</span>
+                            <span class="text-green-600">${order.total.toLocaleString()} تومان</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="text-center text-xs text-gray-500 border-t pt-3 mt-4">
+                    <p>زمان تحویل: ۳۰ دقیقه | شماره پیگیری: ${order.id}</p>
+                </div>
+            `;
+        }
+
+        // Print invoice
+        function printInvoice() {
+            const invoiceContent = document.getElementById('invoiceContent').innerHTML;
+            const printWindow = window.open('', '_blank');
+            
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="fa" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>فاکتور خرید - نانوایی طلایی</title>
+                    <style>
+                        body { font-family: 'Vazir', Arial, sans-serif; margin: 20px; }
+                        .text-center { text-align: center; }
+                        .text-right { text-align: right; }
+                        .font-bold { font-weight: bold; }
+                        .text-gray-600 { color: #6b7280; }
+                        .text-green-600 { color: #059669; }
+                        .border-b { border-bottom: 1px solid #e5e7eb; }
+                        .border-t { border-top: 1px solid #e5e7eb; }
+                        .pb-6 { padding-bottom: 1.5rem; }
+                        .pt-4 { padding-top: 1rem; }
+                        .mb-2 { margin-bottom: 0.5rem; }
+                        .mb-3 { margin-bottom: 0.75rem; }
+                        .mt-4 { margin-top: 1rem; }
+                        .space-y-2 > * + * { margin-top: 0.5rem; }
+                        .grid { display: grid; }
+                        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+                        .gap-6 { gap: 1.5rem; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { padding: 0.75rem; border: 1px solid #e5e7eb; }
+                        th { background-color: #f9fafb; }
+                        .divide-y > * + * { border-top: 1px solid #e5e7eb; }
+                        .flex { display: flex; }
+                        .justify-between { justify-content: space-between; }
+                        .justify-end { justify-content: flex-end; }
+                        .items-center { align-items: center; }
+                        .space-x-reverse > * + * { margin-right: 0.5rem; }
+                        .w-64 { width: 16rem; }
+                        @media print {
+                            body { margin: 0; }
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${invoiceContent}
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+
+        // Download invoice as PDF (simplified version)
+        function downloadInvoice() {
+            // This is a simplified version - in a real application, you would use a library like jsPDF
+            showNotification('قابلیت دانلود PDF در نسخه کامل فعال خواهد شد');
+            
+            // Alternative: Create a downloadable HTML file
+            const invoiceContent = document.getElementById('invoiceContent').innerHTML;
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="fa" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>فاکتور خرید - نانوایی طلایی</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .text-center { text-align: center; }
+                        .font-bold { font-weight: bold; }
+                        .text-gray-600 { color: #6b7280; }
+                        .text-green-600 { color: #059669; }
+                        .border-b { border-bottom: 1px solid #e5e7eb; padding-bottom: 1.5rem; }
+                        .border-t { border-top: 1px solid #e5e7eb; padding-top: 1rem; }
+                        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+                        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+                        th, td { padding: 0.75rem; border: 1px solid #e5e7eb; text-align: right; }
+                        th { background-color: #f9fafb; }
+                        .flex { display: flex; justify-content: space-between; }
+                    </style>
+                </head>
+                <body>
+                    ${invoiceContent}
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `invoice-${Date.now()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Auto responses
+        const autoResponses = [
+            'ممنون از پیامتون! چطور می‌تونم کمکتون کنم؟',
+            'حتماً! کدوم نان رو می‌خواید؟',
+            'بله، تمام نان‌هامون تازه و گرم هستن 🔥',
+            'ارسال رایگان برای خریدهای بالای ۵۰ هزار تومان',
+            'زمان تحویل معمولاً ۳۰ دقیقه است',
+            'می‌تونید با کارت یا نقدی پرداخت کنید',
+            'ما بیش از ۲۰ نوع نان مختلف داریم',
+            'تخفیف‌های ویژه برای مشتریان VIP داریم'
+        ];
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize session on page load
+            initializeSession();
+            
+            // Auth form handlers
+            document.getElementById('mainLoginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('mainUsernameInput').value;
+                const password = document.getElementById('mainPasswordInput').value;
+                const rememberMe = document.querySelector('#mainLoginForm input[type="checkbox"]').checked;
+                login(username, password, rememberMe);
+            });
+
+            document.getElementById('registerForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = document.getElementById('regPasswordInput').value;
+                const confirmPassword = document.getElementById('confirmPasswordInput').value;
+                
+                if (password !== confirmPassword) {
+                    showNotification('رمزهای عبور مطابقت ندارند!', 'error');
+                    return;
+                }
+                
+                const userData = {
+                    name: document.getElementById('fullNameInput').value,
+                    username: document.getElementById('regUsernameInput').value,
+                    email: document.getElementById('emailInput').value,
+                    phone: document.getElementById('phoneInput').value,
+                    password: password
+                };
+                
+                register(userData);
+            });
+
+            document.getElementById('forgotPasswordForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('forgotEmailInput').value;
+                showNotification('لینک بازیابی رمز عبور به ایمیل شما ارسال شد');
+                showLoginSection();
+            });
+
+            // Navigation between auth forms
+            document.getElementById('showRegisterBtn').addEventListener('click', showRegisterSection);
+            document.getElementById('showLoginBtn').addEventListener('click', showLoginSection);
+            document.getElementById('forgotPasswordBtn').addEventListener('click', showForgotPasswordSection);
+            document.getElementById('backToLoginBtn').addEventListener('click', showLoginSection);
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
+            });
+
+            loadProducts();
+            loadVideoTutorials();
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    filterProducts(e.target.dataset.category);
+                });
+            });
+
+            // Sort functionality
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                sortProducts(e.target.value);
+            });
+
+            // User menu
+            document.getElementById('userBtn').addEventListener('click', () => {
+                document.getElementById('userMenu').classList.toggle('hidden');
+            });
+
+
+
+            // Cart modal
+            document.getElementById('cartBtn').addEventListener('click', () => {
+                document.getElementById('cartModal').classList.remove('hidden');
+            });
+
+            document.getElementById('closeCart').addEventListener('click', () => {
+                document.getElementById('cartModal').classList.add('hidden');
+            });
+
+            // Checkout
+            document.getElementById('checkoutBtn').addEventListener('click', () => {
+                if (cart.length === 0) {
+                    showNotification('سبد نان شما خالی است!');
+                    return;
+                }
+                
+                if (!currentUser) {
+                    showNotification('لطفاً ابتدا وارد حساب کاربری خود شوید', 'error');
+                    return;
+                }
+                
+                // Show checkout modal
+                document.getElementById('cartModal').classList.add('hidden');
+                document.getElementById('checkoutModal').classList.remove('hidden');
+            });
+
+            // Chat
+            document.getElementById('chatToggle').addEventListener('click', () => {
+                document.getElementById('chatBox').classList.toggle('hidden');
+            });
+
+            document.getElementById('closeChatBtn').addEventListener('click', () => {
+                document.getElementById('chatBox').classList.add('hidden');
+            });
+
+            document.getElementById('sendChatBtn').addEventListener('click', () => {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                
+                if (message) {
+                    addChatMessage(message, true);
+                    input.value = '';
+                    
+                    // Auto response after 1 second
+                    setTimeout(() => {
+                        const randomResponse = autoResponses[Math.floor(Math.random() * autoResponses.length)];
+                        addChatMessage(randomResponse);
+                    }, 1000);
+                }
+            });
+
+            // Enter key for chat
+            document.getElementById('chatInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('sendChatBtn').click();
+                }
+            });
+
+            // Close modals on outside click
+            document.getElementById('cartModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('cartModal')) {
+                    document.getElementById('cartModal').classList.add('hidden');
+                }
+            });
+
+            document.getElementById('loginModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('loginModal')) {
+                    document.getElementById('loginModal').classList.add('hidden');
+                }
+            });
+
+            // Menu handlers
+            document.getElementById('profileBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                showProfile();
+                document.getElementById('userMenu').classList.add('hidden');
+            });
+
+            document.getElementById('ordersBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                showOrders();
+                document.getElementById('userMenu').classList.add('hidden');
+            });
+
+            document.getElementById('wishlistBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                showWishlist();
+                document.getElementById('userMenu').classList.add('hidden');
+            });
+
+            // Hero buttons
+            document.getElementById('viewProductsBtn').addEventListener('click', scrollToProducts);
+            document.getElementById('contactUsBtn').addEventListener('click', () => {
+                document.getElementById('contactModal').classList.remove('hidden');
+            });
+
+            // Checkout form functionality
+            document.getElementById('checkoutBtn').addEventListener('click', () => {
+                updateCheckoutSummary();
+            });
+
+            // Payment method toggle
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const cardInfo = document.getElementById('cardInfo');
+                    if (e.target.value === 'card') {
+                        cardInfo.style.display = 'block';
+                        // Make card fields required
+                        document.getElementById('cardNumber').required = true;
+                        document.getElementById('cardExpiry').required = true;
+                        document.getElementById('cardCvv').required = true;
+                        document.getElementById('cardHolder').required = true;
+                    } else {
+                        cardInfo.style.display = 'none';
+                        // Remove required from card fields
+                        document.getElementById('cardNumber').required = false;
+                        document.getElementById('cardExpiry').required = false;
+                        document.getElementById('cardCvv').required = false;
+                        document.getElementById('cardHolder').required = false;
+                    }
+                });
+            });
+
+            // Card number formatting
+            document.getElementById('cardNumber').addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            });
+
+            // Card expiry formatting
+            document.getElementById('cardExpiry').addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value;
+            });
+
+            // CVV formatting
+            document.getElementById('cardCvv').addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            });
+
+            // Checkout form submission
+            document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                processOrder();
+            });
+
+            // Modal close handlers
+            document.getElementById('closeProfile').addEventListener('click', () => {
+                document.getElementById('profileModal').classList.add('hidden');
+            });
+
+            document.getElementById('closeOrders').addEventListener('click', () => {
+                document.getElementById('ordersModal').classList.add('hidden');
+            });
+
+            document.getElementById('closeWishlist').addEventListener('click', () => {
+                document.getElementById('wishlistModal').classList.add('hidden');
+            });
+
+            document.getElementById('closeContact').addEventListener('click', () => {
+                document.getElementById('contactModal').classList.add('hidden');
+            });
+
+            document.getElementById('closeCheckout').addEventListener('click', () => {
+                document.getElementById('checkoutModal').classList.add('hidden');
+            });
+
+            document.getElementById('closeInvoice').addEventListener('click', () => {
+                document.getElementById('invoiceModal').classList.add('hidden');
+            });
+
+            // Print and download invoice
+            document.getElementById('printInvoice').addEventListener('click', () => {
+                printInvoice();
+            });
+
+            document.getElementById('downloadInvoice').addEventListener('click', () => {
+                downloadInvoice();
+            });
+
+            // Close modals on outside click
+            [
+                'profileModal', 'ordersModal', 'wishlistModal', 'contactModal', 'checkoutModal', 'invoiceModal'
+            ].forEach(modalId => {
+                document.getElementById(modalId).addEventListener('click', (e) => {
+                    if (e.target.id === modalId) {
+                        document.getElementById(modalId).classList.add('hidden');
+                    }
+                });
+            });
+
+            // Close user menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#userBtn') && !e.target.closest('#userMenu')) {
+                    document.getElementById('userMenu').classList.add('hidden');
+                }
+            });
+
+            // Load wishlist UI on page load
+            setTimeout(() => {
+                updateWishlistUI();
+            }, 1000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975e1ed5a739cb3f',t:'MTc1NjMyNDQ2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
